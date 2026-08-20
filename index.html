@@ -1,70 +1,222 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Мастер-класс по ИИ | Елабуга 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Практический ИИ в образовании | Елабуга 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      -webkit-tap-highlight-color: transparent; 
+      overflow-x: hidden;
+    }
+    .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    
+    /* Плавающие неоновые частицы на фоне */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: radial-gradient(circle, #00f5ff, transparent);
+      border-radius: 50%;
+      box-shadow: 0 0 10px #00f5ff, 0 0 20px #00f5ff;
+      animation: floatParticle 14s infinite linear;
+      opacity: 0.6;
+    }
+    @keyframes floatParticle {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      15% { opacity: 0.7; transform: translateY(85vh) scale(1); }
+      85% { opacity: 0.7; }
+      100% { transform: translateY(-10vh) scale(0.4); opacity: 0; }
+    }
+
+    /* Анимированный градиентный текст */
+    .shine-text {
+      background: linear-gradient(90deg, #00f5ff, #ff00ea, #3b82f6, #00f5ff);
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shineGrad 4s linear infinite;
+    }
+    @keyframes shineGrad {
+      to { background-position: 300% center; }
+    }
+
+    /* Свечение для предсказаний */
+    .prediction-box.active {
+      animation: glowBox 1.2s ease-in-out;
+    }
+    @keyframes glowBox {
+      0%, 100% { box-shadow: 0 0 15px rgba(0, 245, 255, 0.2); }
+      50% { box-shadow: 0 0 35px rgba(0, 245, 255, 0.6), 0 0 50px rgba(255, 0, 234, 0.3); border-color: rgba(0, 245, 255, 0.8); }
+    }
+
+    /* Анимация всплывающих эмодзи */
+    .floating-heart {
+      position: fixed;
+      pointer-events: none;
+      font-size: 1.8rem;
+      animation: heartAnim 1.8s ease-out forwards;
+      z-index: 9999;
+      user-select: none;
+    }
+    @keyframes heartAnim {
+      0% { transform: translate(0, 0) scale(0.3); opacity: 1; }
+      50% { transform: translate(var(--x), -90px) scale(1.4); opacity: 1; }
+      100% { transform: translate(var(--x), -180px) scale(0.5); opacity: 0; }
+    }
+
+    /* Пульсация цифры счетчика */
+    .scale-pulse {
+      animation: numPulse 0.3s ease-out;
+    }
+    @keyframes numPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.35); color: #f97316; }
+      100% { transform: scale(1); }
+    }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen">
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-blue-600 selection:text-white pb-28 relative">
 
-  <!-- Header -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        <span class="text-xs font-semibold px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Елабуга • 2026</span>
-        <h1 class="text-xl font-bold mt-1 text-white">Практический ИИ в образовании</h1>
+  <!-- Контейнер фоновых частиц -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Навигация (адаптивная для мобильных и ПК) -->
+  <header class="border-b border-slate-800/80 bg-slate-900/95 backdrop-blur sticky top-0 z-40 relative">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="px-2.5 py-1 text-xs font-black bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-lg tracking-wide shrink-0">ЕЛАБУГА • 2026</span>
+        <span class="text-xs font-semibold text-slate-300 hidden sm:inline truncate">Педагогическая конференция</span>
       </div>
-      <div class="flex items-center gap-3">
-        <a href="https://t.me/sharapov_rf" target="_blank" class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition">Telegram-канал</a>
-        <a href="https://max.ru/channel_sharapov" target="_blank" class="px-4 py-2 text-sm font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">МАКС</a>
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <a href="https://t.me/sharapov_rf" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/30 text-xs font-bold transition flex items-center gap-1">
+          <span>✈️ <span class="hidden md:inline">Telegram</span></span>
+        </a>
+        <a href="https://max.ru/channel_sharapov" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition flex items-center gap-1">
+          <span>💬 <span class="hidden md:inline">МАКС</span></span>
+        </a>
+        <a href="#contacts" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition hidden sm:inline">
+          <span>👤 Контакты</span>
+        </a>
+        <button onclick="toggleChatWidget(true)" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1 shadow-sm">
+          <span>🤖 AI-Бот</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="max-w-5xl mx-auto px-4 py-8 space-y-10">
+  <main class="max-w-5xl mx-auto px-4 pt-6 sm:pt-8 space-y-8 sm:space-y-10 relative z-10">
 
-    <!-- Hero / Speaker -->
-    <section class="bg-slate-800/50 border border-slate-800 rounded-2xl p-6 sm:p-8">
-      <div class="flex flex-col md:flex-row gap-6 items-center">
-        <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-3xl font-bold text-white shadow-lg">
-          АШ
+    <!-- Титульная карточка спикера и выступления -->
+    <section class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800 p-5 sm:p-8 rounded-2xl relative overflow-hidden shadow-2xl backdrop-blur-sm">
+      <div class="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-5 sm:gap-7 text-center md:text-left">
+        
+        <!-- Фото спикера -->
+        <div class="relative shrink-0">
+          <img 
+            src="https://i.oneme.ru/i?r=BTE2sh_eZW7g8kugOdIm2Not8fkSkh7Cx0anpZ7z1mP4RvhMaU4kR4h965f5KkMU1Yk" 
+            alt="Антон Александрович Шарапов" 
+            referrerpolicy="no-referrer"
+            class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover border-2 border-blue-500/40 shadow-xl mx-auto"
+          />
+          <div class="absolute -bottom-2 -right-2 bg-blue-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow">
+            СПБ
+          </div>
         </div>
-        <div class="space-y-2 text-center md:text-left">
-          <h2 class="text-2xl font-bold text-white">Антон Александрович Шарапов</h2>
-          <p class="text-slate-400 text-sm leading-relaxed">
-            Федеральный эксперт по ИИ, преподаватель-исследователь, методист высшей категории (г. Санкт-Петербург).
+
+        <!-- Описание выступления -->
+        <div class="space-y-3 flex-1">
+          <div class="inline-block text-[11px] font-bold px-3 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 leading-tight text-left">
+            Секция: «Обучение и воспитание: от традиций предпринимательства к инженерному лидерству»
+          </div>
+
+          <div>
+            <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight leading-snug">
+              Практический искусственный интеллект в образовании: от педагогического дизайна к инженерному лидерству
+            </h1>
+            <p class="text-sm font-bold text-blue-400 mt-1">
+              Антон Александрович Шарапов
+            </p>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-2xl">
+            Методист высшей категории, преподаватель-исследователь. Готовые материалы, PRO-промпты, тестовые базы и AI-тренажеры для быстрой работы со смартфона.
           </p>
-          <p class="text-xs text-blue-400 font-medium">Секция: «Обучение и воспитание: от традиций предпринимательства к инженерному лидерству»</p>
+
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5 pt-1">
+            <button onclick="toggleChatWidget(true)" class="text-xs px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition flex items-center gap-2 shadow-md">
+              <span>🤖 Открыть AI-Напарника</span>
+            </button>
+            <a href="https://t.me/sharapov_rf" target="_blank" class="text-xs px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition flex items-center gap-2 shadow-md">
+              <span>✈️ Telegram-канал</span>
+            </a>
+            <a href="https://max.ru/channel_sharapov" target="_blank" class="text-xs px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold transition flex items-center gap-2">
+              <span>💬 Канал в МАКС</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Prompts Section -->
-    <section class="space-y-6">
-      <div class="border-b border-slate-800 pb-3">
-        <h3 class="text-xl font-bold text-white">Готовые PRO-промпты для работы</h3>
-        <p class="text-sm text-slate-400">Нажмите «Копировать», чтобы вставить готовый алгоритм в GigaChat, Алису или любой GPT</p>
+    <!-- Сетка Кейсов -->
+    <section id="cases" class="space-y-8">
+      <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+        <div>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white tracking-tight">Банк практических кейсов и PRO-промптов</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Нажимайте кнопки «Копировать» для вставки в нейросеть</p>
+        </div>
+        <span class="text-xs font-bold px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">7 кейсов</span>
       </div>
 
-      <div class="grid grid-cols-1 gap-6">
-
-        <!-- Card 1: B2B Партнерство -->
-        <div class="bg-slate-800/60 border border-slate-800 rounded-xl p-5 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Для директоров и завучей</span>
-            <button onclick="copyText('prompt1', this)" class="text-xs px-3 py-1.5 rounded-md bg-slate-700 hover:bg-blue-600 text-white font-medium transition">Копировать</button>
+      <!-- КЕЙС 1: B2B ПИСЬМО ДИРЕКТОРУ (С КНОПКОЙ НА МАКС) -->
+      <article class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 space-y-4 shadow-lg backdrop-blur-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span class="text-xs font-bold px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 w-fit">Кейс 1. Управление и B2B</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <a 
+              href="https://max.ru/gigachat" 
+              target="_blank" 
+              class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold transition flex items-center justify-center gap-1.5 shadow"
+            >
+              <span>💬 Открыть GigaChat в МАКС</span>
+            </a>
+            <button onclick="copyText('prompt-case1', this)" class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-blue-600 active:scale-95 text-slate-200 hover:text-white font-bold border border-slate-700 transition">Копировать PRO-промпт</button>
           </div>
-          <h4 class="text-lg font-semibold text-white">1. Письмо директору завода (Инженерный класс)</h4>
-          <p class="text-xs text-slate-400">Помогает составить строгое B2B-предложение без оправданий и канцелярита за 1 минуту.</p>
-          <pre id="prompt1" class="bg-slate-950 p-4 rounded-lg text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800">Действуй как опытный директор передовой школы с инженерным уклоном. Твоя задача: написать короткое, деловое письмо генеральному директору промышленного предприятия с предложением партнерства.
+        </div>
+        
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-white">Нейросети в условиях ограничений: Письмо директору завода</h3>
+          <p class="text-xs text-slate-400 mt-1">Как за 20 секунд составить деловое партнерское обращение от школы руководителю предприятия без просительного тона и канцелярита.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="bg-slate-950 p-3 rounded-xl border border-red-900/40 space-y-1">
+            <span class="text-red-400 font-bold uppercase tracking-wider text-[10px]">❌ Простой промпт:</span>
+            <p class="text-slate-400 italic">«Напиши письмо директору завода от школы, чтобы они стали нашими партнерами по инженерному классу и помогли детям»</p>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-emerald-900/40 space-y-1">
+            <span class="text-emerald-400 font-bold uppercase tracking-wider text-[10px]">✅ Результат PRO-промпта:</span>
+            <p class="text-slate-300">Строгая B2B-структура, тон «руководитель — руководителю», объем строго 70–100 слов, 2 слота на созвон.</p>
+          </div>
+        </div>
+
+        <pre id="prompt-case1" class="bg-slate-950 p-3.5 sm:p-4 rounded-xl text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800 leading-relaxed">Действуй как опытный директор передовой школы с инженерным уклоном. Твоя задача: написать короткое, деловое письмо генеральному директору промышленного предприятия с предложением партнерства.
 
 Цель письма: согласовать 15-минутный созвон или короткую встречу для обсуждения шефства над профильным классом.
 
@@ -75,102 +227,836 @@
 
 Ограничения по тону и стилю:
 1. Тон: уверенный, партнерский, уважительный, на равных (руководитель пишет руководителю).
-2. Запрещено: чиновничий канцелярит («в наше непростое время»), оправдания («мы не просим денег») и агрессивный инфобиз-сленг («у меня сидят люди»).
+2. Запрещено: чиновничий канцелярит («в наше непростое время», «всестороннее развитие»), оправдания («мы не просим денег») и агрессивный инфобиз-сленг («у меня сидят люди», «покажем класс», «только прагматика»).
 3. Объем текста: строго от 70 до 100 слов. Письмо должно читаться за 20 секунд.
 
 Структура:
-1. Тема письма (2 точных варианта).
+1. Тема письма (2 точных, неспамовых варианта).
 2. Суть и повод (25 ребят, профиль БАС/робототехника).
 3. Формула партнерства (наша база — ваши кейсы и наставники).
-4. Четкий призыв к действию (два конкретных слота времени на выбор).</pre>
+4. Четкий призыв к действию (предложение двух конкретных слотов для созвона на выбор).</pre>
+      </article>
+
+      <!-- КЕЙС 2: РАСПАКОВКА ОСМОСА -->
+      <article class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 space-y-4 shadow-lg backdrop-blur-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span class="text-xs font-bold px-2.5 py-1 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20 w-fit">Кейс 2. Методика преподавания</span>
+          <button onclick="copyText('prompt-case2', this)" class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-blue-600 active:scale-95 text-slate-200 hover:text-white font-bold border border-slate-700 transition">Копировать PRO-промпт</button>
+        </div>
+        
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-white">Как упаковать скучный материал в интересный («Осмос»)</h3>
+          <p class="text-xs text-slate-400 mt-1">Трансформация сухого параграфа учебника в понятную бытовую метафору за 1 минуту.</p>
         </div>
 
-        <!-- Card 2: Распаковка термина -->
-        <div class="bg-slate-800/60 border border-slate-800 rounded-xl p-5 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">Учителям-предметникам</span>
-            <button onclick="copyText('prompt2', this)" class="text-xs px-3 py-1.5 rounded-md bg-slate-700 hover:bg-blue-600 text-white font-medium transition">Копировать</button>
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs space-y-1">
+          <span class="text-slate-500 font-bold uppercase tracking-wider text-[10px]">Кусок текста из учебника:</span>
+          <p class="text-slate-300 italic leading-relaxed">«Осмос — это процесс односторонней диффузии через полупроницаемую мембрану молекул растворителя в сторону большей концентрации растворённого вещества из объёма с меньшей концентрацией растворенного вещества»</p>
+        </div>
+
+        <pre id="prompt-case2" class="bg-slate-950 p-3.5 sm:p-4 rounded-xl text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800 leading-relaxed">Действуй как выдающийся педагог-новатор, умеющий объяснять сложную науку как 10-летнему ребенку. 
+Я дам тебе сложный академический текст. 
+Твоя задача -распаковать его для аудитории так, чтобы они поняли суть за 1 минуту и запомнили навсегда.
+
+Алгоритм "Распаковки" (выведи ответ строго по этим блокам): 
+1. Перевод на человеческий: Объясни суть термина в 2-3 предложениях простым языком. Убери канцелярит и сложные термины. 
+2. Метафора из жизни: Приведи один яркий и понятный пример из повседневной бытовой жизни, который иллюстрирует этот процесс. 
+3. Практическая польза: Как знание этого закона/правила можно применить в быту или работе уже сегодня? (1 короткий абзац). 
+4. Проверка понимания: Напиши 2 открытых вопроса, которые заставят аудиторию логически подумать, а не просто вспомнить текст. 
+
+Исходный текст для работы: [Осмос — это процесс односторонней диффузии через полупроницаемую мембрану молекул растворителя в сторону большей концентрации растворённого вещества из объёма с меньшей концентрацией растворенного вещества]</pre>
+      </article>
+
+      <!-- КЕЙС 3: ФУНКЦИОНАЛЬНАЯ ГРАМОТНОСТЬ -->
+      <article class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 space-y-4 shadow-lg backdrop-blur-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span class="text-xs font-bold px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 w-fit">Кейс 3. Педдизайн и оценивание</span>
+          <button onclick="copyText('prompt-case3', this)" class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-blue-600 active:scale-95 text-slate-200 hover:text-white font-bold border border-slate-700 transition">Копировать PRO-промпт</button>
+        </div>
+        
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-white">Как составлять задания для проверки: Функциональная грамотность</h3>
+          <p class="text-xs text-slate-400 mt-1">Создание практической жизненной задачи вместо шаблонного теста с выбором ответов + матрица оценивания (0 / 1 / 2 балла).</p>
+        </div>
+
+        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs space-y-1">
+          <span class="text-slate-500 font-bold uppercase tracking-wider text-[10px]">Базовый запрос:</span>
+          <p class="text-slate-400 italic">«Напиши тест по биологии на тему "Экология" из 3 вопросов» (обычные скучные варианты А, Б, В)</p>
+        </div>
+
+        <pre id="prompt-case3" class="bg-slate-950 p-3.5 sm:p-4 rounded-xl text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800 leading-relaxed">Действуй как методист высшей категории и эксперт по педагогическому дизайну. 
+Твоя задача — разработать практическое задание на оценку функциональной (естественнонаучной) грамотности для учеников 8 класса.
+
+Тема: «Проблема утилизации пластика в нашем городе». 
+
+Алгоритм и структура: 
+1. Проблемный кейс: Опиши реалистичную жизненную ситуацию (до 100 слов), с которой подросток сталкивается каждый день. Без сложной научной терминологии. 
+2. Задания: Сформулируй 3 вопроса к кейсу (1 - на поиск фактов, 2 - на анализ причин, 3 - на творческое решение/гипотезу). 
+3. Матрица оценивания (для учителя): Разработай строгие критерии проверки ответов. 
+
+Формат вывода: 
+Текст кейса и вопросы выведи обычным текстом. 
+Матрицу оценивания оформи в виде таблицы Markdown со столбцами: «Номер вопроса», «0 баллов» (неверно), «1 балл» (частично), «2 балла» (полный ответ с аргументацией).</pre>
+      </article>
+
+      <!-- КЕЙС 4: ЭМОЦИИ ЧЕРЕЗ СТИЛЬ (ЯБЛОКИ) -->
+      <article class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 space-y-5 shadow-lg backdrop-blur-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold px-2.5 py-1 rounded bg-pink-500/10 text-pink-400 border border-pink-500/20">Кейс 4. Генерация медиа и дизайн</span>
+        </div>
+        
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-white">«Эмоции через стиль»: 3 грани одного объекта</h3>
+          <p class="text-xs text-slate-400 mt-1">Один объект («Маленькое красное яблоко на деревянном столе») в трех стилях. Нажмите кнопку под карточкой, чтобы скопировать промпт:</p>
+        </div>
+
+        <!-- 3 адаптивные карточки -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- Реализм -->
+          <div class="bg-slate-950 rounded-xl border border-slate-800 p-3.5 space-y-3 flex flex-col justify-between">
+            <div class="space-y-2.5">
+              <div class="aspect-square rounded-lg overflow-hidden bg-slate-900 border border-slate-800">
+                <img 
+                  src="https://cdn.leonardo.ai/users/9eb70a3a-9350-44db-ba5f-d087d5b634f8/generations/1f112512-f9d6-6090-b6a2-6ba4ef0e2d65/gpt-image-1.5_%D0%9C%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%BE%D0%B5_%D1%8F%D1%80%D0%BA%D0%BE%D0%B5_%D0%BA%D1%80%D0%B0%D1%81%D0%BD%D0%BE%D0%B5_%D1%8F%D0%B1%D0%BB%D0%BE%D0%BA%D0%BE_%D1%81_%D1%82%D0%BE%D0%BD%D0%BA%D0%B8%D0%BC%D0%B8_%D1%81%D0%B2-0.jpg" 
+                  alt="Реализм" 
+                  referrerpolicy="no-referrer"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <span class="text-xs font-bold text-blue-400 block">1. Реализм (обычное яблоко)</span>
+                <p class="text-[11px] text-slate-400 mt-0.5">Естественный свет, предметная съемка, факты.</p>
+              </div>
+              <pre id="prompt-apple-real" class="bg-slate-900 p-2.5 rounded text-[11px] text-slate-300 font-mono overflow-x-auto whitespace-pre-wrap border border-slate-800">Маленькое красное яблоко на деревянном столе, реализм, естественное студийное освещение, высокая детализация, фото 8k, текстура капель воды на кожуре</pre>
+            </div>
+            <button onclick="copyText('prompt-apple-real', this)" class="w-full text-xs py-2.5 rounded-xl bg-slate-800 hover:bg-blue-600 active:scale-95 text-slate-200 hover:text-white font-bold transition border border-slate-700">Копировать «Реализм»</button>
           </div>
-          <h4 class="text-lg font-semibold text-white">2. Распаковка сложного термина «на пальцах»</h4>
-          <p class="text-xs text-slate-400">Превращает любой сложный параграф учебника в понятную бытовую метафору с вопросами на логику.</p>
-          <pre id="prompt2" class="bg-slate-950 p-4 rounded-lg text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800">Действуй как выдающийся педагог-новатор, умеющий объяснять сложную науку как 10-летнему ребенку. Я дам тебе сложный академический текст. Твоя задача — распаковать его для аудитории так, чтобы они поняли суть за 1 минуту и запомнили навсегда.
 
-Алгоритм "Распаковки" (выведи ответ строго по этим блокам):
-1. Перевод на человеческий: Объясни суть термина в 2-3 предложениях простым языком. Убери канцелярит и сложные термины.
-2. Метафора из жизни: Приведи один яркий и понятный пример из повседневной бытовой жизни, который иллюстрирует этот процесс.
-3. Практическая польза: Как знание этого закона/правила можно применить в быту или работе уже сегодня? (1 короткий абзац).
-4. Проверка понимания: Напиши 2 открытых вопроса, которые заставят аудиторию логически подумать, а не просто вспомнить текст.
-
-Исходный текст для работы:
-[Вставьте сюда определение или термин из учебника]</pre>
-        </div>
-
-        <!-- Card 3: Функциональная грамотность -->
-        <div class="bg-slate-800/60 border border-slate-800 rounded-xl p-5 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">Педдизайн и оценивание</span>
-            <button onclick="copyText('prompt3', this)" class="text-xs px-3 py-1.5 rounded-md bg-slate-700 hover:bg-blue-600 text-white font-medium transition">Копировать</button>
+          <!-- Детская книжка -->
+          <div class="bg-slate-950 rounded-xl border border-slate-800 p-3.5 space-y-3 flex flex-col justify-between">
+            <div class="space-y-2.5">
+              <div class="aspect-square rounded-lg overflow-hidden bg-slate-900 border border-slate-800">
+                <img 
+                  src="https://cdn.leonardo.ai/users/9eb70a3a-9350-44db-ba5f-d087d5b634f8/generations/1f112517-1e7b-6ea0-a378-185b7064ea2c/gpt-image-1.5_%D0%9C%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%BE%D0%B5_%D0%BA%D1%80%D0%B0%D1%81%D0%BD%D0%BE%D0%B5_%D1%8F%D0%B1%D0%BB%D0%BE%D0%BA%D0%BE_%D0%BD%D0%B0_%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D1%8F%D0%BD%D0%BD%D0%BE%D0%BC_%D1%81%D1%82%D0%BE-0.jpg" 
+                  alt="Детская книжка" 
+                  referrerpolicy="no-referrer"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <span class="text-xs font-bold text-amber-400 block">2. Детская книжка (милое)</span>
+                <p class="text-[11px] text-slate-400 mt-0.5">Мультяшный стиль, мягкие пастельные тона, доброта.</p>
+              </div>
+              <pre id="prompt-apple-kids" class="bg-slate-900 p-2.5 rounded text-[11px] text-slate-300 font-mono overflow-x-auto whitespace-pre-wrap border border-slate-800">Маленькое красное яблоко на деревянном столе, иллюстрация для детской сказочной книги, милый и добрый мультяшный стиль, акварельные мягкие цвета</pre>
+            </div>
+            <button onclick="copyText('prompt-apple-kids', this)" class="w-full text-xs py-2.5 rounded-xl bg-slate-800 hover:bg-blue-600 active:scale-95 text-slate-200 hover:text-white font-bold transition border border-slate-700">Копировать «Детская книжка»</button>
           </div>
-          <h4 class="text-lg font-semibold text-white">3. Кейс на функциональную грамотность + критерии</h4>
-          <p class="text-xs text-slate-400">Генерирует жизненную задачу вместо шаблонного теста и формирует матрицу проверки (0, 1, 2 балла).</p>
-          <pre id="prompt3" class="bg-slate-950 p-4 rounded-lg text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800">Действуй как методист высшей категории и эксперт по педагогическому дизайну. Твоя задача — разработать практическое задание на оценку функциональной грамотности для учеников [Указать класс].
 
-Тема: [Указать тему занятия].
-
-Алгоритм и структура:
-1. Проблемный кейс: Опиши реалистичную жизненную ситуацию (до 100 слов), с которой подросток сталкивается каждый день. Без сложной терминологии.
-2. Задания: Сформулируй 3 вопроса к кейсу (1 — на поиск фактов, 2 — на анализ причин, 3 — на творческое решение/гипотезу).
-3. Матрица оценивания (для учителя): Разработай строгие критерии проверки ответов.
-
-Формат вывода:
-Текст кейса и вопросы выведи обычным текстом. Матрицу оценивания оформи в виде таблицы Markdown со столбцами: «Номер вопроса», «0 баллов» (неверно), «1 балл» (частично), «2 балла» (полный ответ с аргументацией).</pre>
-        </div>
-
-        <!-- Card 4: Интерактивный AI-Тренажер -->
-        <div class="bg-blue-950/40 border border-blue-800/40 rounded-xl p-5 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-400/30">Интерактив со смартфона</span>
-            <button onclick="copyText('prompt4', this)" class="text-xs px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium transition">Копировать</button>
+          <!-- Хоррор -->
+          <div class="bg-slate-950 rounded-xl border border-slate-800 p-3.5 space-y-3 flex flex-col justify-between">
+            <div class="space-y-2.5">
+              <div class="aspect-square rounded-lg overflow-hidden bg-slate-900 border border-slate-800">
+                <img 
+                  src="https://cdn.leonardo.ai/users/9eb70a3a-9350-44db-ba5f-d087d5b634f8/generations/1f112515-2ec6-60f0-a14b-4db0a9eed8bd/gpt-image-1.5_%D0%9C%D0%B0%D0%BB%D0%B5%D0%BD%D1%8C%D0%BA%D0%BE%D0%B5_%D0%BA%D1%80%D0%B0%D1%81%D0%BD%D0%BE%D0%B5_%D1%8F%D0%B1%D0%BB%D0%BE%D0%BA%D0%BE_%D0%BD%D0%B0_%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D1%8F%D0%BD%D0%BD%D0%BE%D0%BC_%D1%81%D1%82%D0%BE-0.jpg" 
+                  alt="Хоррор" 
+                  referrerpolicy="no-referrer"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <span class="text-xs font-bold text-red-400 block">3. Хоррор (жуткое, тёмное)</span>
+                <p class="text-[11px] text-slate-400 mt-0.5">Мрачные глубокие тени, холодный свет, опасность.</p>
+              </div>
+              <pre id="prompt-apple-horror" class="bg-slate-900 p-2.5 rounded text-[11px] text-slate-300 font-mono overflow-x-auto whitespace-pre-wrap border border-slate-800">Маленькое красное яблоко на деревянном столе, кинематографичный хоррор, мрачные глубокие тени, холодный контровой свет, зловещая мистическая атмосфера</pre>
+            </div>
+            <button onclick="copyText('prompt-apple-horror', this)" class="w-full text-xs py-2.5 rounded-xl bg-slate-800 hover:bg-blue-600 active:scale-95 text-slate-200 hover:text-white font-bold transition border border-slate-700">Копировать «Хоррор»</button>
           </div>
-          <h4 class="text-lg font-semibold text-white">4. Авторский AI-Тренажер промптов</h4>
-          <p class="text-xs text-slate-400">Вставьте этот промпт в любой чат-бот, укажите свой предмет и пройдите интерактивное пошаговое обучение.</p>
-          <pre id="prompt4" class="bg-slate-950 p-4 rounded-lg text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800">Я хочу пройти короткий тренажёр, чтобы научиться правильно общаться с нейросетью.
-Сделай мне пошаговое практическое занятие, рассчитанное на 20-30 минут.
-Я: [УКАЖИТЕ ВАШУ ДОЛЖНОСТЬ И ПРЕДМЕТ, НАПРИМЕР: Учитель физики / Завуч по ВР]
 
-Мне важно научиться: формулировать конкретные запросы, задавать стиль и формат ответа, проверять информацию по документам, просить объяснения «на пальцах», давать уточнения и править результат. Разбей на 5-6 коротких шагов.
+        </div>
+      </article>
 
-Важно! Присылай шаги строго по одному. На каждом шаге задай мне задание, я отвечаю, и только после этого ты проверяешь или реагируешь. Примеры запросов до моего ответа не приводи — только задание. Начнем с шага 1!</pre>
+      <!-- КЕЙС 5: ОЖИВЛЕНИЕ ШИШКИНА -->
+      <article class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 space-y-5 shadow-lg backdrop-blur-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span class="text-xs font-bold px-2.5 py-1 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 w-fit">Кейс 5. Оживление изображения • Елабуга</span>
+          <div class="flex flex-wrap items-center gap-2">
+            <a 
+              href="https://alice.yandex.ru/media/video" 
+              target="_blank" 
+              class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-bold transition flex items-center justify-center gap-1.5 shadow"
+            >
+              <span>🎬 Открыть Алису (VideoGen)</span>
+            </a>
+            <button onclick="copyText('prompt-case5', this)" class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-blue-600 active:scale-95 text-slate-200 hover:text-white font-bold border border-slate-700 transition">Копировать видео-промпт</button>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-white">Оживление картины И. И. Шишкина («Утро в сосновом лесу»)</h3>
+          <p class="text-xs text-slate-400 mt-1">Промпт для генерации динамического кинематографичного видео (Алиса VideoGen / Kling / Runway) на уроках искусства, истории и краеведения.</p>
         </div>
 
-      </div>
+        <div class="bg-slate-950 p-3 sm:p-4 rounded-xl border border-slate-800 space-y-3">
+          <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
+            <img 
+              src="https://thumb.cloud.mail.ru/thumb/xw1/2008/Shishkin%2C_Ivan_-_Morning_in_a_Pine_Forest.jpg?mt=1787250473000" 
+              alt="И. И. Шишкин — Утро в сосновом лесу" 
+              referrerpolicy="no-referrer"
+              class="w-full h-auto max-h-96 object-cover"
+            />
+          </div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
+            <span class="text-xs text-slate-400">Исходник картины для генерации видео</span>
+            <a 
+              href="https://thumb.cloud.mail.ru/thumb/xw1/2008/Shishkin%2C_Ivan_-_Morning_in_a_Pine_Forest.jpg?mt=1787250473000" 
+              target="_blank" 
+              class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white border border-cyan-500/30 text-xs font-bold transition flex items-center justify-center gap-1.5"
+            >
+              <span>📥 Скачать исходник картины (HD)</span>
+            </a>
+          </div>
+        </div>
+
+        <pre id="prompt-case5" class="bg-slate-950 p-3.5 sm:p-4 rounded-xl text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800 leading-relaxed">Commercial product videography, macro extreme close-up shot of bears. Hyper-realistic environment animation. Activate dynamic atmospheric physics: detailed smoke, floating dust motes glowing in light, volumetric steam, or elegant fluid splashes exploding around the product. Premium studio cinematic lighting, dramatic anamorphic lens flare, sharp reflections on the object's surface.Camera motion: dynamic fast camera lowangle orbital flyaround turning into a smooth cinematic slow-motion finish. High-end advertising grade, 8k resolution, flawless textures, ultra-realistic, 60fps</pre>
+      </article>
+
+      <!-- КЕЙС 6: АЛИСА ПРО (ПОШАГОВЫЙ С КРУПНЫМИ СЛАЙДАМИ) -->
+      <article id="alice" class="bg-gradient-to-b from-indigo-950/60 via-slate-900 to-slate-900 border-2 border-indigo-600/50 rounded-2xl p-4 sm:p-7 space-y-8 shadow-2xl backdrop-blur-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-800/40 pb-4">
+          <div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 w-fit">Кейс 6. Задание 1 • Тест-драйв</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-white mt-1">Спасаем Ирину: Создание цифрового эксперта в «Алиса Про»</h3>
+          </div>
+          <a href="https://alicepro.yandex.ru/expert/" target="_blank" class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition shadow flex items-center justify-center gap-1.5">
+            <span>🚀 Открыть Алису Про (Эксперт)</span>
+          </a>
+        </div>
+
+        <!-- Легенда и боль -->
+        <div class="bg-slate-950/90 p-4 sm:p-5 rounded-xl border border-indigo-900/40 space-y-2 text-xs sm:text-sm">
+          <p class="text-slate-300 leading-relaxed">
+            <strong class="text-indigo-300 font-bold">Легенда:</strong> Знакомьтесь, это Ирина — руководитель отдела поддержки. Новички постоянно отвлекают её вопросами. Все ответы есть в длинной инструкции, но её никто не читает.
+          </p>
+          <p class="text-slate-300 leading-relaxed">
+            <strong class="text-red-400 font-bold">Её боль:</strong> Она тратит часы, работая «ходячей базой знаний».
+          </p>
+          <p class="text-slate-300 leading-relaxed">
+            <strong class="text-emerald-400 font-bold">Наша задача:</strong> Создать «Эксперта по инструкции» в сервисе «Алиса Про», скормить текст базы знаний и протестировать на контрольных вопросах.
+          </p>
+        </div>
+
+        <!-- ПОШАГОВЫЙ БЛОК 1: Загрузка базы -->
+        <div class="bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">1</span>
+            <h4 class="text-sm sm:text-base font-bold text-white">Шаг 1. Выбираем Алису Про и загружаем базу данных</h4>
+          </div>
+
+          <!-- Слайд 1 крупно -->
+          <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
+            <a href="https://thumb.cloud.mail.ru/thumb/xw1/2008/2.%20%D0%AF%D0%B7%D1%8B%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%20%D0%B8%20%D1%82%D0%B5%D0%BA%D1%81%D1%82%20%D1%87.2%20%281%29_page-0001.jpg?mt=1787252300000" target="_blank">
+              <img 
+                src="https://thumb.cloud.mail.ru/thumb/xw1/2008/2.%20%D0%AF%D0%B7%D1%8B%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%20%D0%B8%20%D1%82%D0%B5%D0%BA%D1%81%D1%82%20%D1%87.2%20%281%29_page-0001.jpg?mt=1787252300000" 
+                alt="Слайд 1: Загрузка базы данных в Алису Про" 
+                referrerpolicy="no-referrer"
+                class="w-full h-auto object-contain hover:opacity-95 transition"
+              />
+            </a>
+          </div>
+
+          <div class="space-y-2 pt-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <span class="text-xs font-bold text-indigo-300">База знаний по CRM-системе "LeadMaster" v2.1</span>
+              <button onclick="copyText('data-crm-base', this)" class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold transition">Копировать базу знаний</button>
+            </div>
+            <pre id="data-crm-base" class="bg-slate-950 p-3.5 sm:p-4 rounded-xl text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800 max-h-60 custom-scrollbar">База знаний по CRM-системе "LeadMaster" v2.1 
+1. Тарифы и лицензирование
+**Тариф "Бесплатный":
+-   Стоимость: 0 руб/мес.
+-   Лимит пользователей: до 5 человек включительно.
+-   Основные функции: ведение базы клиентов, создание сделок, постановка задач.
+-   Ограничения: нет доступа к аналитике, интеграциям и API.
+Тариф "Профессиональный":
+-   Стоимость: 1990 руб/мес за одного пользователя.
+-   Минимальное количество пользователей: 1.
+-   Основные функции: все из тарифа "Бесплатный" + расширенная аналитика, построение воронки продаж, автоматизация бизнес-процессов.
+-   Доступны все интеграции из раздела 3.
+Тариф "Корпоративный":
+-   Стоимость: рассчитывается индивидуально по запросу.
+-   Минимальное количество пользователей: от 50 человек.
+-   Основные функции: все из тарифа "Профессиональный" + персональный менеджер, доработки системы под нужды клиента, расширенная поддержка 24/7.
+2. Основной функционал
+Воронка продаж (только в тарифе "Профессиональный" и выше):
+-   Позволяет визуализировать путь клиента от первого контакта до покупки.
+-   Этапы воронки можно настраивать индивидуально.
+-   Автоматически рассчитывает конверсию на каждом этапе.
+Автоматизация:
+-   Система может автоматически отправлять клиентам email-уведомления при смене статуса сделки.
+-   Можно настроить автоматическое создание задачи для менеджера при поступлении новой заявки.
+-   Шаблоны email-сообщений настраиваются в разделе "Настройки".
+3. Интеграции
+Важно:Все интеграции доступны только на тарифе "Профессиональный" и "Корпоративный".
+Мессенджеры:Поддерживается прямая интеграция с Telegram и WhatsApp Business API. Сообщения от клиентов автоматически создают новую сделку.
+Социальные сети: Доступна интеграция с личными сообщениями и комментариями в сообществах ВКонтакте.
+Телефония: Нативная интеграция с сервисом Mango Office. Все звонки логируются и прикрепляются к карточке клиента.
+Email: Подключение по протоколу IMAP любого почтового ящика (Яндекс, Mail.ru, Gmail).
+4. Решение технических проблем (для техподдержки)
+Проблема: Система тормозит или не загружаются элементы.
+    -   Шаг 1:Попросить клиента очистить кэш браузера (комбинация Ctrl+Shift+Delete) и перезагрузить страницу. Это решает 90% проблем.
+    -   Шаг 2:Проверить скорость интернет-соединения клиента.
+    -   Шаг 3:Если не помогло, создать тикет в технический отдел.
+-   Проблема: Не проходит оплата за продление лицензии.
+    -   Шаг 1: Убедиться, что клиент пытается оплатить с карты российского банка.
+    -   Шаг 2: Попросить клиента проверить, не стоит ли на его карте лимит или блокировка на онлайн-платежи.
+    -   Шаг 3:Предложить клиенту выставить счет на юридическое лицо.
+-   Проблема: Не работает интеграция с Telegram.
+    -   Шаг 1: Проверить, что у клиента не истек срок действия API-ключа в настройках бота Telegram.
+    -   Шаг 2: Убедиться, что тариф клиента - "Профессиональный" или выше. На бесплатном тарифе интеграции не работают.</pre>
+          </div>
+        </div>
+
+        <!-- ПОШАГОВЫЙ БЛОК 2: Инструкция -->
+        <div class="bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">2</span>
+            <h4 class="text-sm sm:text-base font-bold text-white">Шаг 2. Настраиваем системную инструкцию цифрового двойника</h4>
+          </div>
+
+          <!-- Слайд 2 крупно -->
+          <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
+            <a href="https://thumb.cloud.mail.ru/thumb/xw1/2008/2.%20%D0%AF%D0%B7%D1%8B%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%20%D0%B8%20%D1%82%D0%B5%D0%BA%D1%81%D1%82%20%D1%87.2%20%281%29_page-0002.jpg?mt=1787252299000" target="_blank">
+              <img 
+                src="https://thumb.cloud.mail.ru/thumb/xw1/2008/2.%20%D0%AF%D0%B7%D1%8B%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%20%D0%B8%20%D1%82%D0%B5%D0%BA%D1%81%D1%82%20%D1%87.2%20%281%29_page-0002.jpg?mt=1787252299000" 
+                alt="Слайд 2: Настройка инструкций" 
+                referrerpolicy="no-referrer"
+                class="w-full h-auto object-contain hover:opacity-95 transition"
+              />
+            </a>
+          </div>
+
+          <div class="space-y-2 pt-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <span class="text-xs font-bold text-indigo-300">Инструкция для поля «Инструкции» в Алисе Про</span>
+              <button onclick="copyText('prompt-irina-rules', this)" class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold transition">Копировать инструкцию</button>
+            </div>
+            <pre id="prompt-irina-rules" class="bg-slate-950 p-3.5 sm:p-4 rounded-xl text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800">Ты — консультант технической поддержки CRM-системы "LeadMaster".
+Твоя единственная задача — отвечать на вопросы пользователей строго на основе предоставленной базы знаний о CRM "LeadMaster".
+
+СТРОГИЕ ПРАВИЛА:
+1. Отвечай ТОЛЬКО на вопросы, информация по которым ЯВНО присутствует в базе знаний.
+2. ЗАПРЕЩЕНО использовать свои общие знания, догадки или информацию из интернета.
+3. ЗАПРЕЩЕНО отвечать на любые вопросы, не связанные с CRM "LeadMaster" (автомобили, погода, кулинария, общие темы и т.д.).
+4. Если вопрос не относится к CRM "LeadMaster" ИЛИ ответа нет в базе знаний — отвечай ДОСЛОВНО фразой:
+"Обратитесь к Ирине +799999999"
+и НИЧЕГО больше не добавляй.
+
+ПРИМЕРЫ:
+Вопрос: "Сколько стоит тариф Профессиональный?"
+Ответ: "Тариф 'Профессиональный' стоит 1990 руб/мес за одного пользователя."
+Вопрос: "Какая сегодня погода?"
+Ответ: "Обратитесь к Ирине +799999999"
+Вопрос: "Есть ли интеграция с Битрикс24?"
+Ответ: "Обратитесь к Ирине +799999999"</pre>
+          </div>
+        </div>
+
+        <!-- ПОШАГОВЫЙ БЛОК 3: Контрольное тестирование -->
+        <div class="bg-slate-950/70 p-4 sm:p-5 rounded-xl border border-slate-800 space-y-4">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">3</span>
+            <h4 class="text-sm sm:text-base font-bold text-white">Шаг 3. Контрольное тестирование на 3 вопросах</h4>
+          </div>
+
+          <!-- Слайд 3 крупно -->
+          <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
+            <a href="https://thumb.cloud.mail.ru/thumb/xw1/2008/2.%20%D0%AF%D0%B7%D1%8B%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%20%D0%B8%20%D1%82%D0%B5%D0%BA%D1%81%D1%82%20%D1%87.2%20%281%29_page-0003.jpg?mt=1787252299000" target="_blank">
+              <img 
+                src="https://thumb.cloud.mail.ru/thumb/xw1/2008/2.%20%D0%AF%D0%B7%D1%8B%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%20%D0%B8%20%D1%82%D0%B5%D0%BA%D1%81%D1%82%20%D1%87.2%20%281%29_page-0003.jpg?mt=1787252299000" 
+                alt="Слайд 3: Контрольные вопросы" 
+                referrerpolicy="no-referrer"
+                class="w-full h-auto object-contain hover:opacity-95 transition"
+              />
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+            
+            <!-- Вопрос 1 -->
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 flex flex-col justify-between">
+              <div>
+                <span class="text-blue-400 font-bold block text-xs">Вопрос 1 (Прямой поиск)</span>
+                <p id="q1-text" class="text-slate-200 mt-1.5 font-mono text-xs leading-relaxed">Какая телефония интегрируется с нашей CRM</p>
+              </div>
+              <button onclick="copyText('q1-text', this)" class="w-full text-xs py-2 rounded-lg bg-slate-800 hover:bg-indigo-600 active:scale-95 text-slate-200 hover:text-white font-bold border border-slate-700 transition">Копировать вопрос 1</button>
+            </div>
+
+            <!-- Вопрос 2 -->
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 flex flex-col justify-between">
+              <div>
+                <span class="text-amber-400 font-bold block text-xs">Вопрос 2 (Логика и тарифы)</span>
+                <p id="q2-text" class="text-slate-200 mt-1.5 font-mono text-xs leading-relaxed">У нашего нового клиента команда из 4 человек. Они хотят подключить интеграцию с ВКонтакте. Что нам им предложить?</p>
+              </div>
+              <button onclick="copyText('q2-text', this)" class="w-full text-xs py-2 rounded-lg bg-slate-800 hover:bg-indigo-600 active:scale-95 text-slate-200 hover:text-white font-bold border border-slate-700 transition">Копировать вопрос 2</button>
+            </div>
+
+            <!-- Вопрос 3 -->
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3 flex flex-col justify-between">
+              <div>
+                <span class="text-red-400 font-bold block text-xs">Вопрос 3 (Тест на галлюцинации)</span>
+                <p id="q3-text" class="text-slate-200 mt-1.5 font-mono text-xs leading-relaxed">Как нам настроить интеграцию с 1С</p>
+              </div>
+              <button onclick="copyText('q3-text', this)" class="w-full text-xs py-2 rounded-lg bg-slate-800 hover:bg-indigo-600 active:scale-95 text-slate-200 hover:text-white font-bold border border-slate-700 transition">Копировать вопрос 3</button>
+            </div>
+
+          </div>
+        </div>
+      </article>
+
+      <!-- КЕЙС 7: ИНТЕРАКТИВНЫЙ ТРЕНАЖЕР В ЗАЛЕ -->
+      <article id="trainer" class="bg-gradient-to-b from-blue-950/70 via-slate-900 to-slate-900 border-2 border-blue-500/60 rounded-2xl p-4 sm:p-7 space-y-5 shadow-2xl backdrop-blur-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-blue-800/40 pb-4">
+          <div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-400/30 w-fit">Кейс 7. Интерактив со смартфона</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-white mt-1">Персональный AI-Тренажер для педагога</h3>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <a 
+              href="https://max.ru/gigachat" 
+              target="_blank" 
+              class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold transition shadow flex items-center justify-center gap-1.5"
+            >
+              <span>💬 Открыть GigaChat в МАКС</span>
+            </a>
+            <button onclick="copyText('prompt-case7', this)" class="w-full sm:w-auto text-xs px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-bold transition shadow">Копировать промпт</button>
+          </div>
+        </div>
+
+        <!-- Слайд тренажера крупно -->
+        <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
+          <a href="https://thumb.cloud.mail.ru/thumb/xw1/2008/%D0%AF%D0%B7%D1%8B%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%20%D0%B8%20%D1%82%D0%B5%D0%BA%D1%81%D1%82%20%D1%87.1%20%281%29_page-0001.jpg?mt=1787250930000" target="_blank">
+            <img 
+              src="https://thumb.cloud.mail.ru/thumb/xw1/2008/%D0%AF%D0%B7%D1%8B%D0%BA%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B8%20%D0%B8%20%D1%82%D0%B5%D0%BA%D1%81%D1%82%20%D1%87.1%20%281%29_page-0001.jpg?mt=1787250930000" 
+              alt="Языковые модели и текст ч.1" 
+              referrerpolicy="no-referrer"
+              class="w-full h-auto object-contain hover:opacity-95 transition"
+            />
+          </a>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          Скопируйте текст промпта ниже, вставьте в <strong class="text-emerald-400">GigaChat в МАКС</strong> или любую другую нейросеть со смартфона, укажите свой предмет и пройдите персональное пошаговое занятие:
+        </p>
+
+        <!-- Авторский промпт тренажера -->
+        <pre id="prompt-case7" class="bg-slate-950 p-4 sm:p-5 rounded-xl text-xs sm:text-sm text-slate-200 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800 leading-relaxed">Я хочу пройти короткий тренинг, чтобы научиться правильно общаться с GPT. Сделай мне познавательное практическое занятие , рассчитанное на 30 минут.
+Я ([УКАЖИТЕ ВАШУ ДОЛЖНОСТЬ И ПРЕДМЕТ, НАПРИМЕР: Учитель физики / Завуч по ВР]
+
+Мне важно научиться: формулировать конкретные запросы. Задавать стиль и формат ответа. Проверять информацию по тем документам, которые я буду отправлять. Просить объяснения «на пальцах». Давать уточнения и править черновики. Попросить чат проверить его же работу и скорректировать ее. Сделать так, чтобы я прямо во время тренировки пробовал всё это в действии. Разбей на 5–6 коротких шагов.
+Важно! Присылай шаги строго по одному. На каждом шаге задай мне задание, я отвечаю, только после этого ты проверяешь или реагируешь.
+В конце — небольшой итог. Только задание. Примеры запросов приводи только в том случае, если я попрошу об этом в чате. Вопросов и задания должно быть немного, лучше присылай мне дополнительные задания, чтобы я шаг за шагом усваивал материал.
+Если ты предлагаешь ситуацию, то тебе нужно описать, что за ситуация и дать пример сразу, чтобы было наглядно видно, что нужно исправить.</pre>
+      </article>
+
     </section>
 
-    <!-- Footer / CTA -->
-    <footer class="border-t border-slate-800 pt-8 pb-12 text-center space-y-4">
-      <p class="text-slate-400 text-sm">Материалы подготовлены для участников педагогической конференции в г. Елабуга</p>
-      <div class="flex justify-center gap-4 text-xs text-slate-500">
-        <span>© 2026 Антон Шарапов</span>
-        <span>•</span>
-        <span>elabuga.pro</span>
+    <!-- ======================================================= -->
+    <!-- ИНТЕРАКТИВНЫЙ БЛОК: СТАНЦИЯ ВДОХНОВЕНИЯ + ЖИВОЙ СЧЕТЧИК ОГНЕЙ -->
+    <!-- ======================================================= -->
+    <section class="bg-gradient-to-br from-slate-900/95 via-indigo-950/40 to-slate-900/95 border-2 border-cyan-500/40 rounded-3xl p-6 sm:p-10 text-center space-y-8 shadow-2xl backdrop-blur-md relative overflow-hidden">
+      
+      <!-- 1. Живой счетчик реакций зала (СТАРТ С 0) -->
+      <div class="space-y-4 max-w-lg mx-auto bg-slate-950/70 p-5 sm:p-6 rounded-2xl border border-orange-500/30 shadow-lg">
+        <div class="flex items-center justify-center gap-2">
+          <span class="text-2xl animate-pulse">🔥</span>
+          <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-orange-400">Пульс конференции в зале</span>
+        </div>
+        
+        <div class="flex items-center justify-center gap-3">
+          <span id="fireCount" class="text-4xl sm:text-5xl font-black text-white tracking-tight drop-shadow">0</span>
+          <span class="text-xs text-slate-400 text-left font-medium leading-tight">огоньков<br>зажгли участники</span>
+        </div>
+
+        <button 
+          id="fireBtn"
+          class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-orange-600 via-amber-500 to-yellow-500 hover:from-orange-500 hover:to-yellow-400 active:scale-95 text-slate-950 font-black text-sm sm:text-base shadow-xl shadow-orange-500/20 transition flex items-center justify-center gap-2 mx-auto"
+        >
+          <span>🔥 Зажечь огонь в зале (+1)</span>
+        </button>
       </div>
+
+      <!-- 2. Генератор предсказаний -->
+      <div class="space-y-4 pt-2 border-t border-slate-800/80">
+        <div class="space-y-2">
+          <div class="inline-block text-3xl animate-bounce mb-1">🔮✨</div>
+          <h2 class="text-xl sm:text-3xl font-black shine-text tracking-tight">
+            Педагогическое предсказание от ИИ на учебный год
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
+            Нажмите кнопку, чтобы получить персональный заряд уверенности, инсайт или доброе напутствие перед стартом учебного года!
+          </p>
+        </div>
+
+        <!-- Окно вывода предсказания -->
+        <div 
+          id="predictionText" 
+          class="prediction-box min-h-[90px] p-5 sm:p-6 rounded-2xl bg-slate-950/80 border border-slate-700 text-sm sm:text-base font-semibold text-cyan-200 flex items-center justify-center transition-all duration-300 shadow-inner"
+        >
+          Нажмите «Получить предсказание» ниже ✨
+        </div>
+
+        <!-- Кнопки интерактива -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button 
+            id="predictBtn"
+            class="px-5 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 active:scale-95 text-white text-xs sm:text-sm font-extrabold shadow-lg shadow-cyan-500/25 transition flex items-center gap-2"
+          >
+            <span>✨ Получить предсказание</span>
+          </button>
+
+          <button 
+            id="heartBtn"
+            class="px-5 py-3 rounded-2xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 active:scale-95 text-white text-xs sm:text-sm font-extrabold shadow-lg shadow-pink-500/25 transition flex items-center gap-2"
+          >
+            <span>💖 Послать овации спикеру</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================= -->
+    <!-- НОВЫЙ БЛОК: МОИ КОНТАКТЫ И СОТРУДНИЧЕСТВО -->
+    <!-- ======================================================= -->
+    <section id="contacts" class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 sm:p-10 space-y-6 shadow-2xl backdrop-blur-sm max-w-3xl mx-auto">
+      
+      <!-- Заголовок и карточка автора -->
+      <div class="text-center space-y-3">
+        <div class="relative inline-block">
+          <img 
+            src="https://i.oneme.ru/i?r=BTE2sh_eZW7g8kugOdIm2Not8fkSkh7Cx0anpZ7z1mP4RvhMaU4kR4h965f5KkMU1Yk" 
+            alt="Антон Шарапов" 
+            referrerpolicy="no-referrer"
+            class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-blue-500/50 shadow-xl mx-auto"
+          />
+        </div>
+
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-white">Антон Шарапов</h2>
+          <p class="text-xs sm:text-sm text-blue-400 font-semibold mt-0.5">
+            Преподаватель-исследователь • Методист высшей категории • Эксперт по ИИ
+          </p>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
+          Обучаю решать рабочие задачи с помощью нейросетей «под ключ» — используя бесплатные возможности российских и мировых ИИ без лишних затрат на сервисы. Более 5000 выпускников за 2025–2026 год.
+        </p>
+      </div>
+
+      <!-- Сетка карточек контактов -->
+      <div class="space-y-3 pt-2">
+        
+        <!-- Telegram -->
+        <a 
+          href="https://t.me/sharapov_rf" 
+          target="_blank" 
+          class="flex items-center justify-between p-4 rounded-2xl bg-slate-950/80 hover:bg-slate-800/80 border border-slate-800 hover:border-blue-500/50 transition group shadow-sm"
+        >
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition">
+              ✈️
+            </div>
+            <div class="text-left">
+              <span class="text-[11px] text-slate-400 block font-medium">Основной Telegram-канал</span>
+              <span class="text-sm font-bold text-white group-hover:text-blue-400 transition">@sharapov_rf</span>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-blue-400 flex items-center gap-1 shrink-0">
+            Перейти <span>→</span>
+          </span>
+        </a>
+
+        <!-- МАКС -->
+        <a 
+          href="https://max.ru/channel_sharapov" 
+          target="_blank" 
+          class="flex items-center justify-between p-4 rounded-2xl bg-slate-950/80 hover:bg-slate-800/80 border border-slate-800 hover:border-purple-500/50 transition group shadow-sm"
+        >
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition">
+              ⚡
+            </div>
+            <div class="text-left">
+              <span class="text-[11px] text-slate-400 block font-medium">Официальный канал в МАКС</span>
+              <span class="text-sm font-bold text-white group-hover:text-purple-400 transition truncate max-w-[190px] sm:max-w-none block">max.ru/channel_sharapov</span>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-purple-400 flex items-center gap-1 shrink-0">
+            Перейти <span>→</span>
+          </span>
+        </a>
+
+        <!-- Телефон -->
+        <a 
+          href="tel:+79500320308" 
+          class="flex items-center justify-between p-4 rounded-2xl bg-slate-950/80 hover:bg-slate-800/80 border border-slate-800 hover:border-emerald-500/50 transition group shadow-sm"
+        >
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition">
+              📞
+            </div>
+            <div class="text-left">
+              <span class="text-[11px] text-slate-400 block font-medium">Телефон для связи / WhatsApp / ТГ</span>
+              <span class="text-sm font-bold text-white group-hover:text-emerald-400 transition">+7 (950) 032-03-08</span>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-emerald-400 flex items-center gap-1 shrink-0">
+            Позвонить <span>→</span>
+          </span>
+        </a>
+
+        <!-- Email -->
+        <a 
+          href="mailto:antonsharapov@mail.ru" 
+          class="flex items-center justify-between p-4 rounded-2xl bg-slate-950/80 hover:bg-slate-800/80 border border-slate-800 hover:border-amber-500/50 transition group shadow-sm"
+        >
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-xl shrink-0 group-hover:scale-105 transition">
+              ✉️
+            </div>
+            <div class="text-left">
+              <span class="text-[11px] text-slate-400 block font-medium">Электронная почта</span>
+              <span class="text-sm font-bold text-white group-hover:text-amber-400 transition">antonsharapov@mail.ru</span>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-amber-400 flex items-center gap-1 shrink-0">
+            Написать <span>→</span>
+          </span>
+        </a>
+
+      </div>
+
+      <!-- Плашка открытости к сотрудничеству -->
+      <div class="p-4 rounded-2xl bg-slate-950/90 border border-slate-800 text-center text-xs text-slate-300 leading-relaxed font-medium">
+        💼 Открыт к сотрудничеству с ВУЗами, центрами ДПО, корпоративному обучению сотрудников и выступлениям на конференциях.
+      </div>
+
+    </section>
+
+    <!-- Подвал сайта -->
+    <footer class="border-t border-slate-800/80 pt-8 text-center space-y-3">
+      <div class="flex justify-center items-center gap-4 text-xs text-slate-400">
+        <span>© 2026 Антон Александрович Шарапов</span>
+        <span>•</span>
+        <a href="https://elabuga.pro" class="text-blue-400 hover:underline font-medium">elabuga.pro</a>
+      </div>
+      <p class="text-[11px] text-slate-600">Всероссийская научно-практическая педагогическая конференция • г. Елабуга</p>
     </footer>
 
   </main>
 
+  <!-- ========================================== -->
+  <!-- ИНТЕРАКТИВНЫЙ AI-ВИДЖЕТ PRO-TALK (FLOATING) -->
+  <!-- ========================================== -->
+
+  <!-- Плавающая кнопка вызова (FAB) в правом нижнем углу -->
+  <div id="chat-fab-container" class="fixed bottom-5 right-5 z-50 flex items-center gap-2">
+    <div onclick="toggleChatWidget(true)" class="cursor-pointer bg-slate-900/90 backdrop-blur border border-emerald-500/40 text-emerald-400 text-xs font-bold py-1.5 px-3 rounded-full shadow-lg hidden sm:flex items-center gap-1.5 hover:bg-slate-800 transition">
+      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+      <span>AI-Напарник</span>
+    </div>
+    <button 
+      id="chat-toggle-btn"
+      onclick="toggleChatWidget()" 
+      class="w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 text-white shadow-2xl flex items-center justify-center text-2xl hover:scale-105 active:scale-95 transition-transform duration-200 border-2 border-emerald-400/40 focus:outline-none"
+      title="Открыть AI-чат"
+    >
+      💬
+    </button>
+  </div>
+
+  <!-- Всплывающее окно чата с iframe -->
+  <div 
+    id="chat-widget-modal" 
+    class="fixed z-50 hidden transition-all duration-300 opacity-0 scale-95
+           inset-x-2 bottom-4 top-14 sm:inset-auto sm:bottom-24 sm:right-6 sm:w-[420px] sm:h-[620px]
+           bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden flex flex-col"
+  >
+    <!-- Шапка виджета -->
+    <div class="bg-slate-800 px-4 py-3 border-b border-slate-700 flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-sm font-bold text-white shadow">
+          🤖
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white leading-tight">Цифровой напарник</h4>
+          <span class="text-[10px] text-emerald-400 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> онлайн • Елабуга 2026
+          </span>
+        </div>
+      </div>
+      <button 
+        onclick="toggleChatWidget(false)" 
+        class="w-8 h-8 rounded-lg bg-slate-700/80 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold transition"
+        title="Закрыть чат"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Контейнер с iframe Pro-Talk -->
+    <div class="flex-1 w-full h-full bg-slate-950 relative overflow-hidden">
+      <iframe 
+        allow="microphone;autoplay" 
+        style="width:100%;height:100%!important;border:none;" 
+        src="https://functions.pro-talk.ru/api/v1.0/chatgpt_widget_dialog_api?record_id=recndOGe3gaK5jtz2&promt_id=72294&lang=ru&fullscreen=0&voice=1&prod=1&file=1"
+      ></iframe>
+    </div>
+  </div>
+
+  <!-- ВСЕ СКРИПТЫ САЙТА -->
   <script>
+    // 1. Копирование текста в буфер обмена
     function copyText(elementId, btn) {
       const text = document.getElementById(elementId).innerText;
       navigator.clipboard.writeText(text).then(() => {
         const originalText = btn.innerText;
-        btn.innerText = 'Скопировано!';
-        btn.classList.add('bg-emerald-600');
+        btn.innerText = 'Скопировано! ✓';
+        btn.classList.add('bg-emerald-600', 'text-white');
         setTimeout(() => {
           btn.innerText = originalText;
-          btn.classList.remove('bg-emerald-600');
+          btn.classList.remove('bg-emerald-600', 'text-white');
         }, 2000);
+      }).catch(err => {
+        console.error('Ошибка копирования:', err);
       });
     }
+
+    // 2. Открытие и закрытие окна чат-бота
+    function toggleChatWidget(forceState) {
+      const modal = document.getElementById('chat-widget-modal');
+      const toggleBtn = document.getElementById('chat-toggle-btn');
+      
+      const isOpen = !modal.classList.contains('hidden');
+      const shouldOpen = typeof forceState === 'boolean' ? forceState : !isOpen;
+
+      if (shouldOpen) {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          modal.classList.remove('opacity-0', 'scale-95');
+          modal.classList.add('opacity-100', 'scale-100');
+        }, 10);
+        toggleBtn.innerText = '✕';
+        toggleBtn.classList.add('rotate-90');
+      } else {
+        modal.classList.remove('opacity-100', 'scale-100');
+        modal.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 250);
+        toggleBtn.innerText = '💬';
+        toggleBtn.classList.remove('rotate-90');
+      }
+    }
+
+    // 3. Плавающие частицы на фоне
+    const particlesContainer = document.getElementById('particles');
+    const particleCount = 25;
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 14 + 's';
+      particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+      const size = 3 + Math.random() * 5;
+      particle.style.width = size + 'px';
+      particle.style.height = size + 'px';
+      particlesContainer.appendChild(particle);
+    }
+
+    // 4. Огненный интерактивный счетчик реакций (СТАРТ С 0)
+    let count = parseInt(localStorage.getItem('elabuga_fire_reactions') || '0', 10);
+    const fireCountEl = document.getElementById('fireCount');
+    const fireBtn = document.getElementById('fireBtn');
+    fireCountEl.innerText = count;
+
+    fireBtn.addEventListener('click', (e) => {
+      count += 1;
+      localStorage.setItem('elabuga_fire_reactions', count);
+      fireCountEl.innerText = count;
+      fireCountEl.classList.remove('scale-pulse');
+      void fireCountEl.offsetWidth; // перезапуск анимации
+      fireCountEl.classList.add('scale-pulse');
+
+      const rect = e.target.getBoundingClientRect();
+      createFlyingIcons(rect.left + rect.width / 2, rect.top, ['🔥', '💥', '⚡', '🚀', '✨'], 14);
+    });
+
+    // 5. Массив педагогических предсказаний
+    const predictions = [
+      "🌟 В этом учебном году ваши ученики выиграют главный инженерный хакатон региона!",
+      "🚀 Рутинные отчеты займут ровно 5 минут благодаря ИИ, а свободный вечер вы посвятите себе!",
+      "💡 Ваш открытый урок с нейросетями станет легендой школы, а директор попросит обучить коллег!",
+      "🎯 Ваши старшеклассники соберут работающий прототип дрона и защитят проект перед заводом!",
+      "✨ Вы станете главным вдохновителем школы, за которым потянутся даже самые строгие консерваторы!",
+      "💎 Родительские чаты в этом году будут наполнены исключительно словами искренней благодарности!",
+      "🧠 Ваш первый авторский PRO-промпт сработает с первой попытки и спасет сложнейший урок!",
+      "🏆 Вы докажете, что современный педагог — это главный архитектор будущего, а не исполнитель инструкций!",
+      "🔥 Горящие глаза учеников на ваших уроках станут лучшим подтверждением вашего мастерства!",
+      "🌈 Баланс работы и личной жизни сойдется идеально — loss стремится к нулю, энергия на максимуме!"
+    ];
+
+    const predictBtn = document.getElementById('predictBtn');
+    const predictionText = document.getElementById('predictionText');
+    let lastIndex = -1;
+
+    predictBtn.addEventListener('click', () => {
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * predictions.length);
+      } while (randomIndex === lastIndex && predictions.length > 1);
+      lastIndex = randomIndex;
+
+      predictionText.classList.remove('active');
+      predictionText.style.opacity = '0';
+      
+      setTimeout(() => {
+        predictionText.textContent = predictions[randomIndex];
+        predictionText.style.opacity = '1';
+        predictionText.classList.add('active');
+        createFlyingIcons(window.innerWidth / 2, window.innerHeight / 2, ['💖', '✨', '🌟', '💫', '🤖'], 8);
+      }, 200);
+    });
+
+    // 6. Функция полета эмодзи
+    function createFlyingIcons(x, y, symbols, count = 8) {
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const el = document.createElement('div');
+          el.className = 'floating-heart';
+          el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+          el.style.left = (x + (Math.random() - 0.5) * 70) + 'px';
+          el.style.top = y + 'px';
+          const xOffset = (Math.random() - 0.5) * 240;
+          el.style.setProperty('--x', xOffset + 'px');
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 1800);
+        }, i * 70);
+      }
+    }
+
+    // Кнопка послать овации
+    document.getElementById('heartBtn').addEventListener('click', (e) => {
+      const rect = e.target.getBoundingClientRect();
+      createFlyingIcons(rect.left + rect.width / 2, rect.top, ['💖', '👏', '🌟', '✨', '❤️'], 16);
+    });
+
+    // Легкие искорки при клике в любом свободном месте страницы
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('button') || e.target.closest('a') || e.target.closest('pre') || e.target.closest('#chat-widget-modal')) return;
+      createFlyingIcons(e.clientX, e.clientY, ['✨', '💫', '🔥'], 3);
+    });
   </script>
+
 </body>
 </html>
