@@ -376,7 +376,7 @@
         </div>
       </article>
 
-      <!-- КЕЙС 5: ОЖИВЛЕНИЕ ШИШКИНА -->
+      <!-- КЕЙС 5: ОЖИВЛЕНИЕ КАРТИНЫ (ПРЯМОЕ ВОСПРОИЗВЕДЕНИЕ C GITHUB) -->
       <article class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-6 space-y-5 shadow-lg backdrop-blur-sm">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <span class="text-xs font-bold px-2.5 py-1 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 w-fit">Кейс 5. Оживление изображения • Елабуга</span>
@@ -394,28 +394,40 @@
         
         <div>
           <h3 class="text-base sm:text-lg font-bold text-white">Оживление картины И. И. Шишкина («Утро в сосновом лесу»)</h3>
-          <p class="text-xs text-slate-400 mt-1">Промпт для генерации динамического кинематографичного видео (Алиса VideoGen / Kling / Runway) на уроках искусства, истории и краеведения.</p>
+          <p class="text-xs text-slate-400 mt-1">Сравнение генерации видео в отечественной Яндекс Алисе и PixVerse на уроках истории, искусства и краеведения.</p>
         </div>
 
-        <div class="bg-slate-950 p-3 sm:p-4 rounded-xl border border-slate-800 space-y-3">
-          <div class="rounded-xl overflow-hidden border border-slate-800 bg-slate-900">
-            <img 
-              src="https://thumb.cloud.mail.ru/thumb/xw1/2008/Shishkin%2C_Ivan_-_Morning_in_a_Pine_Forest.jpg?mt=1787250473000" 
-              alt="И. И. Шишкин — Утро в сосновом лесу" 
-              referrerpolicy="no-referrer"
-              class="w-full h-auto max-h-96 object-cover"
-            />
+        <!-- Сетка с рабочими видеоплеерами -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Видео 1: Алиса -->
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-purple-300">📹 Вариант 1: Яндекс Алиса (VideoGen)</span>
+              <a href="https://alice.yandex.ru/?video=08c265fc9cad11f18ffe566b1cffc49f" target="_blank" class="text-[10px] text-cyan-400 hover:underline">В сервисе ↗</a>
+            </div>
+            <div class="rounded-lg overflow-hidden border border-slate-800 bg-black aspect-video flex items-center justify-center">
+              <video controls autoplay loop muted playsinline class="w-full h-full object-cover">
+                <source src="shishkin-alice.mp4" type="video/mp4">
+                Ваш браузер не поддерживает встроенное видео.
+              </video>
+            </div>
           </div>
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
-            <span class="text-xs text-slate-400">Исходник картины для генерации видео</span>
-            <a 
-              href="https://thumb.cloud.mail.ru/thumb/xw1/2008/Shishkin%2C_Ivan_-_Morning_in_a_Pine_Forest.jpg?mt=1787250473000" 
-              target="_blank" 
-              class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white border border-cyan-500/30 text-xs font-bold transition flex items-center justify-center gap-1.5"
-            >
-              <span>📥 Скачать исходник картины (HD)</span>
-            </a>
+
+          <!-- Видео 2: PixVerse -->
+          <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-blue-300">📹 Вариант 2: PixVerse AI</span>
+              <a href="https://app.pixverse.ai/video/420115802932632" target="_blank" class="text-[10px] text-cyan-400 hover:underline">В сервисе ↗</a>
+            </div>
+            <div class="rounded-lg overflow-hidden border border-slate-800 bg-black aspect-video flex items-center justify-center">
+              <video controls autoplay loop muted playsinline class="w-full h-full object-cover">
+                <source src="shishkin-pixverse.mp4" type="video/mp4">
+                Ваш браузер не поддерживает встроенное видео.
+              </video>
+            </div>
           </div>
+
         </div>
 
         <pre id="prompt-case5" class="bg-slate-950 p-3.5 sm:p-4 rounded-xl text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800 leading-relaxed">Commercial product videography, macro extreme close-up shot of bears. Hyper-realistic environment animation. Activate dynamic atmospheric physics: detailed smoke, floating dust motes glowing in light, volumetric steam, or elegant fluid splashes exploding around the product. Premium studio cinematic lighting, dramatic anamorphic lens flare, sharp reflections on the object's surface.Camera motion: dynamic fast camera lowangle orbital flyaround turning into a smooth cinematic slow-motion finish. High-end advertising grade, 8k resolution, flawless textures, ultra-realistic, 60fps</pre>
