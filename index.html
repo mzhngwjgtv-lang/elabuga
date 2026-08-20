@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мастер-класс по ИИ | Елабуга 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
+
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="text-xs font-semibold px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Елабуга • 2026</span>
+        <h1 class="text-xl font-bold mt-1 text-white">Практический ИИ в образовании</h1>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://t.me/sharapov_rf" target="_blank" class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition">Telegram-канал</a>
+        <a href="https://max.ru/channel_sharapov" target="_blank" class="px-4 py-2 text-sm font-medium rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">МАКС</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto px-4 py-8 space-y-10">
+
+    <!-- Hero / Speaker -->
+    <section class="bg-slate-800/50 border border-slate-800 rounded-2xl p-6 sm:p-8">
+      <div class="flex flex-col md:flex-row gap-6 items-center">
+        <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-3xl font-bold text-white shadow-lg">
+          АШ
+        </div>
+        <div class="space-y-2 text-center md:text-left">
+          <h2 class="text-2xl font-bold text-white">Антон Александрович Шарапов</h2>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Федеральный эксперт по ИИ, преподаватель-исследователь, методист высшей категории (г. Санкт-Петербург).
+          </p>
+          <p class="text-xs text-blue-400 font-medium">Секция: «Обучение и воспитание: от традиций предпринимательства к инженерному лидерству»</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prompts Section -->
+    <section class="space-y-6">
+      <div class="border-b border-slate-800 pb-3">
+        <h3 class="text-xl font-bold text-white">Готовые PRO-промпты для работы</h3>
+        <p class="text-sm text-slate-400">Нажмите «Копировать», чтобы вставить готовый алгоритм в GigaChat, Алису или любой GPT</p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+
+        <!-- Card 1: B2B Партнерство -->
+        <div class="bg-slate-800/60 border border-slate-800 rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Для директоров и завучей</span>
+            <button onclick="copyText('prompt1', this)" class="text-xs px-3 py-1.5 rounded-md bg-slate-700 hover:bg-blue-600 text-white font-medium transition">Копировать</button>
+          </div>
+          <h4 class="text-lg font-semibold text-white">1. Письмо директору завода (Инженерный класс)</h4>
+          <p class="text-xs text-slate-400">Помогает составить строгое B2B-предложение без оправданий и канцелярита за 1 минуту.</p>
+          <pre id="prompt1" class="bg-slate-950 p-4 rounded-lg text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800">Действуй как опытный директор передовой школы с инженерным уклоном. Твоя задача: написать короткое, деловое письмо генеральному директору промышленного предприятия с предложением партнерства.
+
+Цель письма: согласовать 15-минутный созвон или короткую встречу для обсуждения шефства над профильным классом.
+
+Вводные:
+• В сентябре запускаем группу из 25 мотивированных старшеклассников (робототехника, БАС, программирование).
+• Наша цель — учить ребят на реальных производственных задачах завода и сформировать для вас целевой кадровый резерв через 2–3 года.
+• Наше разделение: школа закрывает базу, педагогов и оборудование; от предприятия нужны только производственные кейсы и 1–2 часа экспертного наставничества в месяц.
+
+Ограничения по тону и стилю:
+1. Тон: уверенный, партнерский, уважительный, на равных (руководитель пишет руководителю).
+2. Запрещено: чиновничий канцелярит («в наше непростое время»), оправдания («мы не просим денег») и агрессивный инфобиз-сленг («у меня сидят люди»).
+3. Объем текста: строго от 70 до 100 слов. Письмо должно читаться за 20 секунд.
+
+Структура:
+1. Тема письма (2 точных варианта).
+2. Суть и повод (25 ребят, профиль БАС/робототехника).
+3. Формула партнерства (наша база — ваши кейсы и наставники).
+4. Четкий призыв к действию (два конкретных слота времени на выбор).</pre>
+        </div>
+
+        <!-- Card 2: Распаковка термина -->
+        <div class="bg-slate-800/60 border border-slate-800 rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">Учителям-предметникам</span>
+            <button onclick="copyText('prompt2', this)" class="text-xs px-3 py-1.5 rounded-md bg-slate-700 hover:bg-blue-600 text-white font-medium transition">Копировать</button>
+          </div>
+          <h4 class="text-lg font-semibold text-white">2. Распаковка сложного термина «на пальцах»</h4>
+          <p class="text-xs text-slate-400">Превращает любой сложный параграф учебника в понятную бытовую метафору с вопросами на логику.</p>
+          <pre id="prompt2" class="bg-slate-950 p-4 rounded-lg text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800">Действуй как выдающийся педагог-новатор, умеющий объяснять сложную науку как 10-летнему ребенку. Я дам тебе сложный академический текст. Твоя задача — распаковать его для аудитории так, чтобы они поняли суть за 1 минуту и запомнили навсегда.
+
+Алгоритм "Распаковки" (выведи ответ строго по этим блокам):
+1. Перевод на человеческий: Объясни суть термина в 2-3 предложениях простым языком. Убери канцелярит и сложные термины.
+2. Метафора из жизни: Приведи один яркий и понятный пример из повседневной бытовой жизни, который иллюстрирует этот процесс.
+3. Практическая польза: Как знание этого закона/правила можно применить в быту или работе уже сегодня? (1 короткий абзац).
+4. Проверка понимания: Напиши 2 открытых вопроса, которые заставят аудиторию логически подумать, а не просто вспомнить текст.
+
+Исходный текст для работы:
+[Вставьте сюда определение или термин из учебника]</pre>
+        </div>
+
+        <!-- Card 3: Функциональная грамотность -->
+        <div class="bg-slate-800/60 border border-slate-800 rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">Педдизайн и оценивание</span>
+            <button onclick="copyText('prompt3', this)" class="text-xs px-3 py-1.5 rounded-md bg-slate-700 hover:bg-blue-600 text-white font-medium transition">Копировать</button>
+          </div>
+          <h4 class="text-lg font-semibold text-white">3. Кейс на функциональную грамотность + критерии</h4>
+          <p class="text-xs text-slate-400">Генерирует жизненную задачу вместо шаблонного теста и формирует матрицу проверки (0, 1, 2 балла).</p>
+          <pre id="prompt3" class="bg-slate-950 p-4 rounded-lg text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800">Действуй как методист высшей категории и эксперт по педагогическому дизайну. Твоя задача — разработать практическое задание на оценку функциональной грамотности для учеников [Указать класс].
+
+Тема: [Указать тему занятия].
+
+Алгоритм и структура:
+1. Проблемный кейс: Опиши реалистичную жизненную ситуацию (до 100 слов), с которой подросток сталкивается каждый день. Без сложной терминологии.
+2. Задания: Сформулируй 3 вопроса к кейсу (1 — на поиск фактов, 2 — на анализ причин, 3 — на творческое решение/гипотезу).
+3. Матрица оценивания (для учителя): Разработай строгие критерии проверки ответов.
+
+Формат вывода:
+Текст кейса и вопросы выведи обычным текстом. Матрицу оценивания оформи в виде таблицы Markdown со столбцами: «Номер вопроса», «0 баллов» (неверно), «1 балл» (частично), «2 балла» (полный ответ с аргументацией).</pre>
+        </div>
+
+        <!-- Card 4: Интерактивный AI-Тренажер -->
+        <div class="bg-blue-950/40 border border-blue-800/40 rounded-xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-400/30">Интерактив со смартфона</span>
+            <button onclick="copyText('prompt4', this)" class="text-xs px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium transition">Копировать</button>
+          </div>
+          <h4 class="text-lg font-semibold text-white">4. Авторский AI-Тренажер промптов</h4>
+          <p class="text-xs text-slate-400">Вставьте этот промпт в любой чат-бот, укажите свой предмет и пройдите интерактивное пошаговое обучение.</p>
+          <pre id="prompt4" class="bg-slate-950 p-4 rounded-lg text-xs text-slate-300 overflow-x-auto whitespace-pre-wrap font-mono border border-slate-800">Я хочу пройти короткий тренажёр, чтобы научиться правильно общаться с нейросетью.
+Сделай мне пошаговое практическое занятие, рассчитанное на 20-30 минут.
+Я: [УКАЖИТЕ ВАШУ ДОЛЖНОСТЬ И ПРЕДМЕТ, НАПРИМЕР: Учитель физики / Завуч по ВР]
+
+Мне важно научиться: формулировать конкретные запросы, задавать стиль и формат ответа, проверять информацию по документам, просить объяснения «на пальцах», давать уточнения и править результат. Разбей на 5-6 коротких шагов.
+
+Важно! Присылай шаги строго по одному. На каждом шаге задай мне задание, я отвечаю, и только после этого ты проверяешь или реагируешь. Примеры запросов до моего ответа не приводи — только задание. Начнем с шага 1!</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Footer / CTA -->
+    <footer class="border-t border-slate-800 pt-8 pb-12 text-center space-y-4">
+      <p class="text-slate-400 text-sm">Материалы подготовлены для участников педагогической конференции в г. Елабуга</p>
+      <div class="flex justify-center gap-4 text-xs text-slate-500">
+        <span>© 2026 Антон Шарапов</span>
+        <span>•</span>
+        <span>elabuga.pro</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    function copyText(elementId, btn) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'Скопировано!';
+        btn.classList.add('bg-emerald-600');
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.classList.remove('bg-emerald-600');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
